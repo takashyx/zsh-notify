@@ -27,7 +27,7 @@ function notify-success() {
 
   ((diff = $now - $start_time ))
   if (( $diff > $NOTIFY_COMMAND_COMPLETE_TIMEOUT )); then
-    notify-if-background -t "#win" <<< "$last_command" &!
+    notify-if-background -t "#success" <<< "$last_command" &!
   fi
 }
 

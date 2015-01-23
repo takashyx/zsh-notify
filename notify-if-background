@@ -48,25 +48,25 @@ else
   return 1;
 fi
 
-if [[ $term_id == 'com.googlecode.iterm2' ]]; then
-  TT='tell-iterm2'
-  if [[ `$TT <<< "frontmost and (tty of (current session of current terminal) is equal to \"$TTY\")"` == "true" ]]; then
-    return 2
-  fi
-elif [[ $term_id == 'com.apple.terminal' ]]; then
-  TT='tell-terminal'
-  if [[ `$TT <<<frontmost` == "true" && `$TT -tab <<<selected` == "true" ]]; then
-    return 2
-  fi
-elif [[ $term_id == 'check_xdotool' ]]; then
-  ACTIVEPID=$(xdotool getactivewindow getwindowpid)
-  if [[ "$ACTIVEPID" == "$PPID_FIRST" ]]; then
-    return 2
-  fi
-else
-  # shouldn't actually get up to here
-  return 2
-fi
+# if [[ $term_id == 'com.googlecode.iterm2' ]]; then
+#   TT='tell-iterm2'
+#   if [[ `$TT <<< "frontmost and (tty of (current session of current terminal) is equal to \"$TTY\")"` == "true" ]]; then
+#     return 2
+#   fi
+# elif [[ $term_id == 'com.apple.terminal' ]]; then
+#   TT='tell-terminal'
+#   if [[ `$TT <<<frontmost` == "true" && `$TT -tab <<<selected` == "true" ]]; then
+#     return 2
+#   fi
+# elif [[ $term_id == 'check_xdotool' ]]; then
+#   ACTIVEPID=$(xdotool getactivewindow getwindowpid)
+#   if [[ "$ACTIVEPID" == "$PPID_FIRST" ]]; then
+#     return 2
+#   fi
+# else
+#   # shouldn't actually get up to here
+#   return 2
+# fi
 
 #cat /dev/stdin | growlnotify "$@"
 # growlnotify "$@" < /dev/stdin
