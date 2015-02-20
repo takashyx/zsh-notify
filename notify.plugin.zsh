@@ -24,9 +24,12 @@ function notify-success() {
   start_time=$1
   last_command="$2"
   now=`date "+%s"`
+  (( diff = $now - $start_time ))
 
-  ((diff = $now - $start_time ))
-  if (( $diff > $NOTIFY_COMMAND_COMPLETE_TIMEOUT )); then
+  is-on-blacklist $last_command
+  blacklisted=$?
+
+  if (( $blacklisted != 0 )) && (( $diff > $NOTIFY_COMMAND_COMPLETE_TIMEOUT )) ; then
     notify-if-background -t "#success" <<< "$last_command" &!
   fi
 }
@@ -46,6 +49,17 @@ function store-command-stats() {
   last_command=$1
   last_command_name=${1[(wr)^(*=*|sudo|ssh|-*)]}
   start_time=`date "+%s"`
+}
+
+function is-on-blacklist() {
+  blacklist=("vim" "ssh")
+  for s in ${blacklist[*]}; do
+    pattern="^${s}"
+    if [[ $1 =~ $pattern ]]; then
+        return 0;
+    fi
+  done
+  return -1;
 }
 
 if [[ -z "$PPID_FIRST" ]]; then
