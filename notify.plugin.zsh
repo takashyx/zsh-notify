@@ -54,7 +54,7 @@ function store-command-stats() {
 function is-on-blacklist() {
   blacklist=("vim" "ssh" "tig")
   for s in ${blacklist[*]}; do
-    pattern="^${s}"
+    pattern="^ *${s}.*"
     if [[ $1 =~ $pattern ]]; then
         return 0;
     fi
